@@ -13,6 +13,7 @@ import com.ctre.phoenix.led.CANdleControlFrame;
 import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.LarsonAnimation;
 import com.ctre.phoenix.led.FireAnimation;
+import com.ctre.phoenix.led.StrobeAnimation;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -25,7 +26,7 @@ public class Robot extends TimedRobot {
   CANdle candle1 = new CANdle(0);
   FireAnimation fireAnimation = new FireAnimation();
   LarsonAnimation larsonAnimation = new LarsonAnimation(255, 255, 255);
-  
+  StrobeAnimation strobeAnimation = new StrobeAnimation(255, 255, 255);
   
   
   
@@ -38,6 +39,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+
     candle1.animate(rainbowAnimation);
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
@@ -82,7 +84,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    candle1.animate(strobeAnimation);
+  }
 
   @Override
   public void teleopInit() {
@@ -97,7 +101,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    candle1.setLEDs(10, 166, 245);
+  }
 
   @Override
   public void testInit() {
