@@ -14,6 +14,10 @@ import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.LarsonAnimation;
 import com.ctre.phoenix.led.FireAnimation;
 import com.ctre.phoenix.led.StrobeAnimation;
+import com.ctre.phoenix.led.TwinkleAnimation;
+import com.ctre.phoenix.led.TwinkleOffAnimation;
+
+
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -27,12 +31,13 @@ public class Robot extends TimedRobot {
   FireAnimation fireAnimation = new FireAnimation();
   LarsonAnimation larsonAnimation = new LarsonAnimation(255, 255, 255);
   StrobeAnimation strobeAnimation = new StrobeAnimation(255, 255, 255);
-  
-  
+  TwinkleAnimation tAnimation = new TwinkleAnimation(33, 32, 95);
+  TwinkleOffAnimation tOffAnimation = new TwinkleOffAnimation(237, 34, 37);
   
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -113,11 +118,15 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+    candle1.animate(tAnimation);
+  }
 
   /** This function is called once when the robot is first started up. */
   @Override
-  public void simulationInit() {}
+  public void simulationInit() {
+    candle1.animate(tOffAnimation);
+  }
 
   /** This function is called periodically whilst in simulation. */
   @Override
