@@ -16,6 +16,7 @@ import com.ctre.phoenix.led.FireAnimation;
 import com.ctre.phoenix.led.StrobeAnimation;
 import com.ctre.phoenix.led.TwinkleAnimation;
 import com.ctre.phoenix.led.TwinkleOffAnimation;
+import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.RgbFadeAnimation;
 import com.ctre.phoenix.led.SingleFadeAnimation;
@@ -27,17 +28,21 @@ import com.ctre.phoenix.led.SingleFadeAnimation;
  */
 public class Robot extends TimedRobot {
   //create a rainbox anim.
-  RainbowAnimation rainbowAnimation = new RainbowAnimation(1, 1, 0);
+  RainbowAnimation rainbowAnimation = new RainbowAnimation(1, 1, 90);
   CANdle candle1 = new CANdle(1);
-  FireAnimation fireAnimation = new FireAnimation(2, .25, 1000, 10, .75);
-  LarsonAnimation larsonAnimation = new LarsonAnimation(255, 255, 255);
-  StrobeAnimation strobeAnimation = new StrobeAnimation(255, 255, 255, 2, kDefaultPeriod, 100);
-  //TwinkleAnimation tAnimation = new TwinkleAnimation(255, 255, 255, 0, 50, 100, null);
- // TwinkleOffAnimation tOffAnimation = new TwinkleOffAnimation(255, 255, 255, 5, kDefaultPeriod, 100, 90);
+  FireAnimation fireAnimation = new FireAnimation(01, 0, 90, 1, 0);
+  LarsonAnimation larsonAnimation = new LarsonAnimation(52, 155, 235);
+  StrobeAnimation strobeAnimation = new StrobeAnimation(52, 155, 235, 2, kDefaultPeriod, 100);
+  //TwinkleAnimation tAnimation = new
+  //TwinkleOffAnimation tOffAnimation = new TwinkleOffAnimation(255, 255, 255, 1, 1, 90, null);
   RgbFadeAnimation rgbFadeAnimation = new RgbFadeAnimation();
   RainbowAnimation rainbowAnimation2 = new RainbowAnimation(1, kDefaultPeriod, 100);
   SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(255, 255, 255, 0, 100, 100, 40);
   SingleFadeAnimation singleFadeAnimation2 = new SingleFadeAnimation(25, 255, 150, 0, 100, 100,0);
+  //TwinkleAnimation tAnimation = new TwinkleAnimation(255, 255, 255, 255, 1, 90, null);
+  
+  
+  
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -87,7 +92,9 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    candle1.animate(fireAnimation);
+    candle1.configLEDType(LEDStripType.RGB);
+    candle1.setLEDs(52, 155, 235, 0, 0, 30);
+    //candle1.animate(larsonAnimation);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -104,8 +111,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     //candle1.animate(tAnimation);
-    candle1.animate(singleFadeAnimation);
-    candle1.animate(singleFadeAnimation2);
+    candle1.animate(fireAnimation);
+    //candle1.animate(singleFadeAnimation2);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
