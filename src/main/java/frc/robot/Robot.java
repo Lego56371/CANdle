@@ -16,8 +16,9 @@ import com.ctre.phoenix.led.FireAnimation;
 import com.ctre.phoenix.led.StrobeAnimation;
 import com.ctre.phoenix.led.TwinkleAnimation;
 import com.ctre.phoenix.led.TwinkleOffAnimation;
-
-
+import com.ctre.phoenix.led.Animation;
+import com.ctre.phoenix.led.RgbFadeAnimation;
+import com.ctre.phoenix.led.SingleFadeAnimation;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -27,13 +28,16 @@ import com.ctre.phoenix.led.TwinkleOffAnimation;
 public class Robot extends TimedRobot {
   //create a rainbox anim.
   RainbowAnimation rainbowAnimation = new RainbowAnimation(1, 1, 0);
-  CANdle candle1 = new CANdle(0);
-  FireAnimation fireAnimation = new FireAnimation();
+  CANdle candle1 = new CANdle(1);
+  FireAnimation fireAnimation = new FireAnimation(2, .25, 1000, 10, .75);
   LarsonAnimation larsonAnimation = new LarsonAnimation(255, 255, 255);
-  StrobeAnimation strobeAnimation = new StrobeAnimation(255, 255, 255);
-  TwinkleAnimation tAnimation = new TwinkleAnimation(33, 32, 95);
-  TwinkleOffAnimation tOffAnimation = new TwinkleOffAnimation(237, 34, 37);
-  
+  StrobeAnimation strobeAnimation = new StrobeAnimation(255, 255, 255, 2, kDefaultPeriod, 100);
+  //TwinkleAnimation tAnimation = new TwinkleAnimation(255, 255, 255, 0, 50, 100, null);
+ // TwinkleOffAnimation tOffAnimation = new TwinkleOffAnimation(255, 255, 255, 5, kDefaultPeriod, 100, 90);
+  RgbFadeAnimation rgbFadeAnimation = new RgbFadeAnimation();
+  RainbowAnimation rainbowAnimation2 = new RainbowAnimation(1, kDefaultPeriod, 100);
+  SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(255, 255, 255, 0, 100, 100, 40);
+  SingleFadeAnimation singleFadeAnimation2 = new SingleFadeAnimation(25, 255, 150, 0, 100, 100,0);
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -42,10 +46,12 @@ public class Robot extends TimedRobot {
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
+  
   @Override
   public void robotInit() {
+    candle1.animate(fireAnimation);
 
-    candle1.animate(rainbowAnimation);
+    
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
@@ -70,17 +76,19 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    candle1.animate(rainbowAnimation);
+    //candle1.animate(rainbowAnimation);
   }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    //candle1.animate(rainbowAnimation); 
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    candle1.animate(fireAnimation);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -90,11 +98,14 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    candle1.animate(strobeAnimation);
+    //candle1.animate(rainbowAnimation);
   }
 
   @Override
   public void teleopInit() {
+    //candle1.animate(tAnimation);
+    candle1.animate(singleFadeAnimation);
+    candle1.animate(singleFadeAnimation2);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -107,25 +118,28 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    candle1.setLEDs(10, 166, 245);
+    //candle1.animate(tAnimation);
   }
 
   @Override
   public void testInit() {
+    candle1.animate(rainbowAnimation2);
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    //candle1.animate(rainbowAnimation2);
+    //candle1.animate(strobeAnimation);
   }
 
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
-    candle1.animate(tAnimation);
+    //candle1.setLEDs(255, 255, 255);
   }
 
   /** This function is called once when the robot is first started up. */
   @Override
   public void simulationInit() {
-    candle1.animate(tOffAnimation);
+    //candle1.animate(tOffAnimation);
   }
 
   /** This function is called periodically whilst in simulation. */
